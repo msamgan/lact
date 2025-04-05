@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Msamgan\Lact\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LactCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'lact';
 
     public $description = 'My command';
 
