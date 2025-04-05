@@ -2,9 +2,9 @@
 
 namespace Msamgan\Lact;
 
+use Msamgan\Lact\Commands\LactCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Msamgan\Lact\Commands\LactCommand;
 
 class LactServiceProvider extends PackageServiceProvider
 {
