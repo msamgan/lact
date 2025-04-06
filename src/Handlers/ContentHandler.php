@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Msamgan\Lact\Handlers;
 
 use Msamgan\Lact\Concerns\CommonFunctions;
