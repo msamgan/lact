@@ -59,7 +59,6 @@ The following requirements should be met in order for this package to work.
 - This package depends on ```fetch``` which was default after ```node 18```. **The min node version required is 18.**
 - The ```route function``` from ```ziggy``` is also a dependency. It comes by default with inertia setup.
 - The ```route``` you want to translate to action ```should have a name```.
-- As of now, only the ```routes that use a controller``` can be translated. In versions to come, this will be updated.
 
 ## Installation
 
@@ -177,7 +176,28 @@ In ```POST, PUT and PATCH``` we have ```data``` object.
 ```html
 <meta name="csrf" content="{{ csrf_token() }}">
 ```
+### Closures
+for Closures, the ```name of the route``` becomes the name of the calling function,
+which can be imported from ```"Closures"```
 
+```php
+Route::get('dashboard-data', function () {
+    return \App\Models\User::query()->get();
+})->name('dashboard.data')->prefix('action');
+```
+
+```jsx
+import { dashboardData } from '@actions/Closures';
+
+//...
+dashboardData({
+    queryString: {
+        q: 'Amber',
+    },
+}).then(async (r) => {
+    const res = await r.json()
+});
+```
 
 ## Testing
 
