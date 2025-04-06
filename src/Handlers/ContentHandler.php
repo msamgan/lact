@@ -2,15 +2,20 @@
 
 namespace Msamgan\Lact\Handlers;
 
+use Msamgan\Lact\Concerns\CommonFunctions;
+
 class ContentHandler
 {
-    public function createGetMethodString($routeName, $methodName): string
+    use CommonFunctions;
+
+    public function createGetMethodString(array $replacers): string
     {
-        $baseString =
-            "export const {{methodName}} = (queryString = {}) => {\n\treturn fetch(route('{{routeName}}', queryString)).then(response => response)\n}";
+        $baseString = file_get_contents($this->currentSourcePath('Stubs/get_method.stub'));
 
-        $functionString = str_replace('{{methodName}}', $methodName, $baseString);
+        foreach ($replacers as $key => $replacer) {
+            $baseString = str_replace('{{' . $key . '}}', $replacer, $baseString);
+        }
 
-        return str_replace('{{routeName}}', $routeName, $functionString);
+        return $baseString;
     }
 }

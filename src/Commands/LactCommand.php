@@ -24,7 +24,10 @@ class LactCommand extends Command
             $extraction = $urlHandler->extractNames(route: $route);
             $fileHandler->appendToFileWithEmptyLine(
                 filePath: $fileHandler->ensureJsFileExists(fileName: $extraction['fileName']),
-                content: $contentHandler->createGetMethodString(routeName: $route->getName(), methodName: $extraction['methodName'])
+                content: $contentHandler->createGetMethodString(replacers: [
+                    'routeName' => $route->getName(),
+                    'methodName' => $extraction['methodName'],
+                ])
             );
         }
 

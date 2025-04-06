@@ -38,15 +38,4 @@ class FileHandler
             mkdir($directory, 0755, true);
         }
     }
-
-    private function currentResourcePath(?string $additional = null): string
-    {
-        $baseResource = 'vendor/msamgan/lact/resources/';
-
-        if ($additional) {
-            return $baseResource . $additional;
-        }
-
-        return $baseResource;
-    }
 }
