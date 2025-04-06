@@ -36,7 +36,7 @@ class LactCommand extends Command
     {
         if (! str_contains(file_get_contents($filePath), $content)) {
             // Append the content followed by an empty line
-            file_put_contents($filePath, $content . PHP_EOL . PHP_EOL, FILE_APPEND);
+            file_put_contents($filePath, $content.PHP_EOL.PHP_EOL, FILE_APPEND);
         }
     }
 
@@ -46,6 +46,7 @@ class LactCommand extends Command
             "export const {{methodName}} = (queryString = {}) => {\n\treturn fetch(route('{{routeName}}', queryString)).then(response => response)\n}";
 
         $functionString = str_replace('{{methodName}}', $methodName, $baseString);
+
         return str_replace('{{routeName}}', $routeName, $functionString);
     }
 
@@ -61,10 +62,10 @@ class LactCommand extends Command
     {
         $this->ensureActionsDirectoryExists();
 
-        $filePath = $this->currentResourcePath($this->getPrefix() . '/' . $fileName . '.js');
+        $filePath = $this->currentResourcePath($this->getPrefix().'/'.$fileName.'.js');
 
         if (! file_exists($filePath)) {
-            $rawFileContent = "// Action file: " . $fileName . PHP_EOL;
+            $rawFileContent = '// Action file: '.$fileName.PHP_EOL;
             // $rawFileContent .= "import axios from 'axios'" . PHP_EOL . PHP_EOL;
 
             file_put_contents($filePath, $rawFileContent);
@@ -95,7 +96,7 @@ class LactCommand extends Command
         $baseResource = 'vendor/msamgan/lact/resources/';
 
         if ($additional) {
-            return $baseResource . $additional;
+            return $baseResource.$additional;
         }
 
         return $baseResource;
