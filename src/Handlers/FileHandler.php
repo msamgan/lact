@@ -31,6 +31,34 @@ class FileHandler
         }
     }
 
+
+    public function removeDirectoryRecursively(?string $directoryPath = null): void
+    {
+        if (! $directoryPath) {
+            $directoryPath = $this->currentResourcePath($this->getPrefix());
+        }
+
+        if (!is_dir($directoryPath)) {
+            return;
+        }
+
+        $items = array_diff(scandir($directoryPath), ['.', '..']);
+
+        foreach ($items as $item) {
+            $itemPath = $directoryPath . DIRECTORY_SEPARATOR . $item;
+
+            if (is_dir($itemPath)) {
+                $this->removeDirectoryRecursively($itemPath);
+            } else {
+                unlink($itemPath);
+            }
+        }
+
+        rmdir($directoryPath);
+    }
+
+
+
     private function ensureActionsDirectoryExists(): void
     {
         $directory = $this->currentResourcePath($this->getPrefix());

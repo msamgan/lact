@@ -37,4 +37,9 @@ class UrlHandler
             'methodName' => $methodName,
         ];
     }
+
+    public function checkFor(string $method, \Illuminate\Routing\Route $route): bool
+    {
+        return in_array($method, $route->methods);
+    }
 }
