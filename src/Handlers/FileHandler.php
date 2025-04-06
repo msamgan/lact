@@ -31,14 +31,13 @@ class FileHandler
         }
     }
 
-
     public function removeDirectoryRecursively(?string $directoryPath = null): void
     {
         if (! $directoryPath) {
             $directoryPath = $this->currentResourcePath($this->getPrefix());
         }
 
-        if (!is_dir($directoryPath)) {
+        if (! is_dir($directoryPath)) {
             return;
         }
 
@@ -56,8 +55,6 @@ class FileHandler
 
         rmdir($directoryPath);
     }
-
-
 
     private function ensureActionsDirectoryExists(): void
     {
