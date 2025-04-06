@@ -98,6 +98,8 @@ export default defineConfig({
 For convenience, you may also wish to register aliases for importing the generated files into your application:
 
 ```js
+import { resolve } from 'node:path';
+
 export default defineConfig({
     // ...
     resolve: {
