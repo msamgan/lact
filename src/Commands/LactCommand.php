@@ -23,7 +23,7 @@ class LactCommand extends Command
     {
         $methodsArray = [
             'GET',
-            'POST'
+            'POST',
         ];
 
         // removing the actions' dir.
