@@ -18,8 +18,6 @@ class LactServiceProvider extends PackageServiceProvider
         $package
             ->name('lact')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_lact_table')
             ->hasCommand(LactCommand::class);
     }
 }
