@@ -25,7 +25,16 @@ class UrlHandler
 
     public function extractNames(\Illuminate\Routing\Route $route): array
     {
-        $usesFragments = explode('\\', $route->getAction()['uses']);
+        $uses = $route->getAction()['uses'];
+
+        if (! is_string($uses)) {
+            return [
+                'fileName' => 'Closures',
+                'methodName' => $this->toSmallCamelCase($route->getAction()['as']),
+            ];
+        }
+
+        $usesFragments = explode('\\', $uses);
         $lastFragment = array_pop($usesFragments);
 
         $fileFragments = explode('@', $lastFragment);

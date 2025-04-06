@@ -32,4 +32,13 @@ trait CommonFunctions
 
         return $baseResource;
     }
+
+    public function toSmallCamelCase(string $input): string
+    {
+        $segments = explode('.', $input);
+        $segments = array_map('ucfirst', $segments);
+        $segments[0] = lcfirst($segments[0]);
+
+        return implode('', $segments);
+    }
 }
