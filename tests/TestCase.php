@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Msamgan\Lact\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,15 +15,8 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Msamgan\\Lact\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Msamgan\\Lact\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            LactServiceProvider::class,
-        ];
     }
 
     public function getEnvironmentSetUp($app)
@@ -33,5 +28,12 @@ class TestCase extends Orchestra
             (include $migration->getRealPath())->up();
          }
          */
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            LactServiceProvider::class,
+        ];
     }
 }
