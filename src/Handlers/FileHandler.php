@@ -27,7 +27,7 @@ class FileHandler
     {
         if (! str_contains(file_get_contents($filePath), $content)) {
             // Append the content followed by an empty line
-            file_put_contents($filePath, $content . PHP_EOL . PHP_EOL, FILE_APPEND);
+            file_put_contents($filePath, $content . PHP_EOL, FILE_APPEND);
         }
     }
 

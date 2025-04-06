@@ -21,46 +21,29 @@ class LactCommand extends Command
 
     public function handle(UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler): int
     {
-        $methodsArray = [
-            'GET',
-            'POST'
-        ];
-
         // removing the actions' dir.
         $fileHandler->removeDirectoryRecursively();
 
         foreach ($urlHandler->actionUrls() as $route) {
-            foreach ($methodsArray as $method) {
-                if ($urlHandler->checkFor($method, $route)) {
-                    match ($method) {
-                        'GET' => $this->handleGet($urlHandler, $fileHandler, $contentHandler, $route),
-                        'POST' => $this->handlePost($urlHandler, $fileHandler, $contentHandler, $route),
-                    };
+            foreach ($route->methods as $method) {
+                if ($method === 'HEAD') {
+                    continue;
                 }
+
+                $this->process($urlHandler, $fileHandler, $contentHandler, $route, $method);
             }
         }
 
         return self::SUCCESS;
     }
 
-    private function handleGet(UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, Route $route): void
-    {
+    private function process(
+        UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, Route $route, string $file
+    ): void {
         $extraction = $urlHandler->extractNames(route: $route);
         $fileHandler->appendToFileWithEmptyLine(
             filePath: $fileHandler->ensureJsFileExists(fileName: $extraction['fileName']),
-            content: $contentHandler->createGetMethodString(replacers: [
-                'routeName' => $route->getName(),
-                'methodName' => $extraction['methodName'],
-            ])
-        );
-    }
-
-    private function handlePost(UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, Route $route): void
-    {
-        $extraction = $urlHandler->extractNames(route: $route);
-        $fileHandler->appendToFileWithEmptyLine(
-            filePath: $fileHandler->ensureJsFileExists(fileName: $extraction['fileName']),
-            content: $contentHandler->createPostMethodString(replacers: [
+            content: $contentHandler->createMethodString(file: strtolower($file) . '_method', replacers: [
                 'routeName' => $route->getName(),
                 'methodName' => $extraction['methodName'],
             ])

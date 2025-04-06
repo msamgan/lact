@@ -1,6 +1,6 @@
-export const {{methodName}} = ({ data = {}, headers = {}, queryString = {} }) => {
+export const {{methodName}} = ({ queryString = {}, data = {}, headers = {} }) => {
     return fetch(route('{{routeName}}', queryString), {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'X-CSRF-TOKEN':  document.querySelector('meta[name="csrf"]').content,
             'Content-Type': 'application/json',

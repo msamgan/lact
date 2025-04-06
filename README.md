@@ -1,19 +1,65 @@
-# connecting Js based fronted with laravel backend
+# Access controller methods directly in your frontend files.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/msamgan/lact.svg?style=flat-square)](https://packagist.org/packages/msamgan/lact)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/msamgan/lact/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/msamgan/lact/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/msamgan/lact/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/msamgan/lact/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/msamgan/lact.svg?style=flat-square)](https://packagist.org/packages/msamgan/lact)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Laravel controller
+```php
+class DashboardController extends Controller
+{
+    public function dashboardData(Request $request)
+    {
+        return User::query()
+            ->when($request->has('q'), function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->get('q') . '%');
+            })->get();
+    }
+}
+```
+Frontend JSX
+```jsx
+import { dashboardData } from '@actions/DashboardController';
 
-## Support us
+dashboardData({
+    queryString: {
+        q: 'Amber',
+    },
+}).then(async (response) => {
+    console.log(await response.json());
+    /*[
+        {
+            "id": 2,
+            "name": "Amber Miles",
+            "email": "biduro@mailinator.com",
+            "email_verified_at": null,
+            "created_at": "2025-04-06T11:49:36.000000Z",
+            "updated_at": "2025-04-06T11:49:36.000000Z"
+        }
+    ]*/
+});
+```
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/lact.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/lact)
+Route
+```php
+Route::get('dashboard-data', [DashboardController::class, 'dashboardData'])->name('dashboard.data')->prefix('action');
+```
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+## Support Me
 
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+I invest a lot of resources into creating [best in class open source packages](https://msamgan.com/projects).
+You can support us by [buying me a Coffee](https://ko-fi.com/msamgan)
+or [sponsoring this project.](https://github.com/sponsors/msamgan).
+
+## Pre Requirements
+
+The following requirements should be met in order for this package to work.
+
+- This package depends on ```fetch``` which was default after ```node 18```. **The min node version required is 18.**
+- The ```route function``` from ```ziggy``` is also a dependency. It comes by default with inertia setup.
+- The ```route``` you want to translate to action ```should have a name```.
+- As of now, only the ```routes that use a controller``` can be translated. In versions to come, this will be updated.
 
 ## Installation
 
@@ -23,38 +69,113 @@ You can install the package via composer:
 composer require msamgan/lact
 ```
 
-You can publish and run the migrations with:
+you will also need the vite plugin.
 
 ```bash
-php artisan vendor:publish --tag="lact-migrations"
-php artisan migrate
+npm i -D vite-plugin-run
 ```
 
-You can publish the config file with:
+Then, update your application's ```vite.config.js``` file to watch for changes to your application's routes and
+controllers:
 
-```bash
-php artisan vendor:publish --tag="lact-config"
+```js
+import {run} from "vite-plugin-run";
+
+export default defineConfig({
+    plugins: [
+        // ...
+        run([
+            {
+                name: "lact",
+                run: ["php", "artisan", "lact:build-actions"],
+                pattern: ["routes/**/*.php"],
+            },
+        ]),
+    ],
+});
 ```
 
-This is the contents of the published config file:
+For convenience, you may also wish to register aliases for importing the generated files into your application:
+
+```js
+export default defineConfig({
+    // ...
+    resolve: {
+        alias: {
+            '@actions': resolve(__dirname, 'vendor/msamgan/lact/resources/action'),
+        },
+    },
+});
+```
+
+## Codebase Changes
+The first step will be **adding a prefix ```action``` to the ```route``` which you want to be translated into actions.**
+
+### Add ```action``` prefix.
 
 ```php
-return [
-];
+Route::get('path', [ControllerName::class, 'functionName'])->name('route.name')->prefix('action');
 ```
 
-Optionally, you can publish the views using
+### Generate Definitions.
+Once all the required routes are tag with the prefix, then you can generate the definition by running
 
 ```bash
-php artisan vendor:publish --tag="lact-views"
+php artisan lact:build-actions
 ```
 
-## Usage
+### Usage
 
-```php
-$lact = new Msamgan\Lact();
-echo $lact->echoPhrase('Hello, Msamgan!');
+```jsx
+import { functionName } from '@actions/ControllerName';
+
+...
+functionName().then(async (r) => {
+    const res = await r.json()
+    // process....
+})
 ```
+
+### Signatures
+Following are the signatures of the functions based on the method of the route.
+
+#### GET
+```js
+const functionName = ({ queryString = {}, headers = {}, methodHead = false }) => {}
+
+//...
+functionName({
+    queryString: {q: 'text'},
+    headers: {},
+    methodHead: true // incase you just want to send a HEAD request insted of GET
+}).then(async (r) => {
+    const res = await r.json()
+    // process....
+})
+```
+
+#### POST
+```js
+const functionName = ({ data = {}, headers = {}, queryString = {} }) => {}
+
+//...
+functionName({
+    data: {name: 'some-name'},
+    headers: {
+        Authreziation: "Barer <token>"
+    },
+}).then(async (r) => {
+    const res = await r.json()
+    // process....
+})
+```
+In ```POST, PUT and PATCH``` we have ```data``` object.
+
+**NOTE: Please add below meta-tag to your ```app.blade.php``` to resolve the CSRF issues for your post-routes.**
+```html
+<meta name="csrf" content="{{ csrf_token() }}">
+```
+
 
 ## Testing
 

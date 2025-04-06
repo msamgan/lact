@@ -1,6 +1,6 @@
-export const {{methodName}} = ({ queryString = {}, headers = {}, methodHead = false }) => {
+export const {{methodName}} = ({ queryString = {}, headers = {} }) => {
     return fetch(route('{{routeName}}', queryString), {
-        method: methodHead ? 'HEAD' : 'GET',
+        method: 'DELETE',
         headers: headers
     }).then(response => response).catch(error => console.error('Error:', error));
 }
