@@ -22,7 +22,7 @@ Frontend JSX
 ```jsx
 import { dashboardData } from '@actions/DashboardController';
 
-dashboardData({
+dashboardData.call({
     param: {
         q: 'Amber',
     },
@@ -136,10 +136,19 @@ php artisan lact:build-actions
 import { functionName } from '@actions/ControllerName';
 
 // ...
-functionName().then(async (r) => {
+functionName.call().then(async (r) => {
     const res = await r.json()
     // process....
 })
+
+functionName.route({})
+// /path
+
+functionName.route({ user: 1 })
+// /path/1
+
+functionName.routeName
+// 'route.name'
 ```
 
 ### Signatures
@@ -147,10 +156,10 @@ Following are the signatures of the functions based on the method of the route.
 
 #### GET
 ```js
-const functionName = ({ param = {}, headers = {}, methodHead = false }) => {}
+function({ param = {}, headers = {}, methodHead = false }) {}
 
 //...
-functionName({
+functionName.call({
     param: {q: 'text'},
     headers: {},
     methodHead: true // incase you just want to send a HEAD request insted of GET
@@ -162,10 +171,10 @@ functionName({
 
 #### POST
 ```js
-const functionName = ({ data = {}, headers = {}, param = {} }) => {}
+function({ data = {}, headers = {}, param = {} }) {}
 
 //...
-functionName({
+functionName.call({
     data: {name: 'some-name'},
     headers: {
         Authreziation: "Barer <token>"
@@ -195,7 +204,7 @@ Route::get('dashboard-data', function () {
 import { dashboardData } from '@actions/Closures';
 
 //...
-dashboardData({
+dashboardData.call({
     param: {
         q: 'Amber',
     },
