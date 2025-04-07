@@ -53,8 +53,7 @@ class LactCommand extends Command
 
     private function process(
         UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, Route $route, string $file
-    ): void
-    {
+    ): void {
         $extraction = $urlHandler->extractNames(route: $route);
         $fileHandler->appendToFileWithEmptyLine(
             filePath: $fileHandler->ensureJsFileExists(fileName: $extraction['fileName']),
