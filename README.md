@@ -7,8 +7,11 @@
 
 Laravel controller
 ```php
+use Msamgan\Lact\Attributes\Action;
+
 class DashboardController extends Controller
 {
+    #[Action(method: 'get')]
     public function dashboardData(Request $request)
     {
         return User::query()
@@ -41,11 +44,6 @@ dashboardData.call({
 });
 ```
 
-Route
-```php
-Route::get('dashboard-data', [DashboardController::class, 'dashboardData'])->name('dashboard.data')->prefix('action');
-```
-
 ## Support Me
 
 I invest a lot of resources into creating [best in class open source packages](https://msamgan.com/projects).
@@ -58,7 +56,7 @@ The following requirements should be met in order for this package to work.
 
 - This package depends on ```fetch``` which was default after ```node 18```. **The min node version required is 18.**
 - The ```route function``` from ```ziggy``` is also a dependency. It comes by default with inertia setup.
-- The ```route``` you want to translate to action ```should have a name```.
+- If you are using the routes approach, the ```route``` you want to translate to action ```should have a name```.
 
 ## Installation
 
@@ -74,6 +72,8 @@ you will also need the vite plugin.
 npm i -D vite-plugin-run
 ```
 
+## Setup
+
 Then, update your application's ```vite.config.js``` file to watch for changes to your application's routes and
 controllers:
 
@@ -87,7 +87,7 @@ export default defineConfig({
             {
                 name: "lact",
                 run: ["php", "artisan", "lact:build-actions"],
-                pattern: ["routes/**/*.php"],
+                pattern: ["routes/**/*.php", "app/**/Http/Controllers/**/*.php"],
             },
         ]),
     ],
@@ -109,7 +109,44 @@ export default defineConfig({
 });
 ```
 
-## Codebase Changes
+## Approach One: Action Attribute
+If you are using ```lact``` you don't have to crate routes, lact will take care of it for you.
+All you have to do is add and ```#[Action]``` attribute to your controller method,
+with a mandatory ```methods: 'get|post|...'```. 
+
+```php
+use Msamgan\Lact\Attributes\Action;
+
+#[Action(method: 'get')]
+public function dashboardData(Request $request)
+{
+    return User::query()
+        ->when($request->has('q'), function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request->get('q') . '%');
+        })->get();
+}
+```
+Apart from method you can also pass the following params as per your requirement in ```#[Action]```
+
+- (string) name: name of the route.
+- (array) params: array off all the url params, in same order as you want in URL.
+- (array) middleware: array of all the middleware you want to apply in the route for this method.
+
+```php
+use Msamgan\Lact\Attributes\Action;
+
+#[Action(method: 'post', params: ['user'], 'user.update', middleware: ['auth', 'verified'])]
+public function update(User $user, Request $request)
+{
+    // process...
+}
+
+// the route for the above function will translate to
+// Route::post('85906367-216d-4f44-b463-4c3508478b52/{user}', [App\Http\Controllers\DashboardController::class, 'update'])
+//      ->name('user.update')->middleware(['auth','verified',])->prefix('action');
+```
+## Approach Two: Action Prefix
+
 The first step will be **adding a prefix ```action``` to the ```route``` which you want to be translated into actions.**
 
 ### Add ```action``` prefix.
@@ -136,12 +173,12 @@ php artisan lact:build-actions
 import { functionName } from '@actions/ControllerName';
 
 // ...
-functionName.call().then(async (r) => {
+functionName.call({}).then(async (r) => {
     const res = await r.json()
     // process....
 })
 
-functionName.route({})
+functionName.route()
 // /path
 
 functionName.route({ user: 1 })
