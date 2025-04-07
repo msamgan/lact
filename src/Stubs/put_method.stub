@@ -1,11 +1,11 @@
-export const {{methodName}} = ({ queryString = {}, data = {}, headers = {} }) => {
-    return fetch(route('{{routeName}}', queryString), {
-        method: 'PUT',
-        headers: {
-            'X-CSRF-TOKEN':  document.querySelector('meta[name="csrf"]').content,
-            'Content-Type': 'application/json',
-            ...headers
-        },
-        body: JSON.stringify(data),
-    }).then(response => response).catch(error => console.error('Error:', error));
-}
+function({ data = {}, headers = {}, param = {} }) {
+        return fetch(route('{{routeName}}', param), {
+            method: 'PUT',
+            headers: {
+                'X-CSRF-TOKEN':  document.querySelector('meta[name="csrf"]').content,
+                'Content-Type': 'application/json',
+                ...headers
+            },
+            body: JSON.stringify(data),
+        }).then(response => response)
+    },

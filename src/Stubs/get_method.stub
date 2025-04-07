@@ -1,6 +1,6 @@
-export const {{methodName}} = ({ queryString = {}, headers = {}, methodHead = false }) => {
-    return fetch(route('{{routeName}}', queryString), {
-        method: methodHead ? 'HEAD' : 'GET',
-        headers: headers
-    }).then(response => response).catch(error => console.error('Error:', error));
-}
+function({ param = {}, headers = {}, methodHead = false }) {
+        return fetch(route('{{routeName}}', param), {
+            method: methodHead ? 'HEAD' : 'GET',
+            headers: headers
+        }).then(response => response)
+    },
