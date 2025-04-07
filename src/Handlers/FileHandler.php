@@ -63,4 +63,18 @@ class FileHandler
             mkdir($directory, 0755, true);
         }
     }
+
+
+    public function emptyLactRoutesFile(): void
+    {
+        $filePath = $this->currentBasePath('routes/lact.php');
+
+        if (file_exists($filePath)) {
+            $lines = file($filePath, FILE_IGNORE_NEW_LINES);
+            if ($lines !== false && count($lines) > 3) {
+                $newContents = array_slice($lines, 0, 3);
+                file_put_contents($filePath, implode(PHP_EOL, $newContents) . PHP_EOL);
+            }
+        }
+    }
 }
