@@ -30,7 +30,7 @@ class LactCommand extends Command
                     continue;
                 }
 
-                $this->process($urlHandler, $fileHandler, $contentHandler, $route, $method);
+                $this->process(urlHandler: $urlHandler, fileHandler: $fileHandler, contentHandler: $contentHandler, route: $route, file: $method);
             }
         }
 

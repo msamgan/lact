@@ -30,7 +30,7 @@ class UrlHandler
         if (! is_string($uses)) {
             return [
                 'fileName' => 'Closures',
-                'methodName' => $this->toSmallCamelCase($route->getAction()['as']),
+                'methodName' => $this->dotCaseToFunctionCase($route->getName()),
             ];
         }
 

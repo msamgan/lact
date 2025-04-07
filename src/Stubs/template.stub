@@ -1,0 +1,9 @@
+export const {{methodName}} = {
+    call: {{function}}
+    route: function(param = {}) {
+        return route('{{routeName}}', param)
+    },
+
+    routeName:  '{{routeName}}',
+}
+

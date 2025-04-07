@@ -23,7 +23,7 @@ Frontend JSX
 import { dashboardData } from '@actions/DashboardController';
 
 dashboardData({
-    queryString: {
+    param: {
         q: 'Amber',
     },
 }).then(async (response) => {
@@ -118,6 +118,11 @@ The first step will be **adding a prefix ```action``` to the ```route``` which y
 Route::get('path', [ControllerName::class, 'functionName'])->name('route.name')->prefix('action');
 ```
 
+**Caution: ones you add the prefix, the urls of the routes will be changed. In case you are using the routes directly please update those with a ```/action``` prefix.**
+```
+e.g., /user => /action/user
+```
+
 ### Generate Definitions.
 Once all the required routes are tag with the prefix, then you can generate the definition by running
 
@@ -130,7 +135,7 @@ php artisan lact:build-actions
 ```jsx
 import { functionName } from '@actions/ControllerName';
 
-...
+// ...
 functionName().then(async (r) => {
     const res = await r.json()
     // process....
@@ -142,11 +147,11 @@ Following are the signatures of the functions based on the method of the route.
 
 #### GET
 ```js
-const functionName = ({ queryString = {}, headers = {}, methodHead = false }) => {}
+const functionName = ({ param = {}, headers = {}, methodHead = false }) => {}
 
 //...
 functionName({
-    queryString: {q: 'text'},
+    param: {q: 'text'},
     headers: {},
     methodHead: true // incase you just want to send a HEAD request insted of GET
 }).then(async (r) => {
@@ -157,7 +162,7 @@ functionName({
 
 #### POST
 ```js
-const functionName = ({ data = {}, headers = {}, queryString = {} }) => {}
+const functionName = ({ data = {}, headers = {}, param = {} }) => {}
 
 //...
 functionName({
@@ -191,7 +196,7 @@ import { dashboardData } from '@actions/Closures';
 
 //...
 dashboardData({
-    queryString: {
+    param: {
         q: 'Amber',
     },
 }).then(async (r) => {

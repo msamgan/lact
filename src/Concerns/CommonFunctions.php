@@ -33,7 +33,14 @@ trait CommonFunctions
         return $baseResource;
     }
 
-    public function toSmallCamelCase(string $input): string
+    /**
+     * Converts a string in dot case (e.g., "example.case") to function case
+     * (e.g., "exampleCase").
+     *
+     * @param  string  $input  The input string formatted in dot case.
+     * @return string The converted string formatted in function case.
+     */
+    public function dotCaseToFunctionCase(string $input): string
     {
         $segments = explode('.', $input);
         $segments = array_map('ucfirst', $segments);
