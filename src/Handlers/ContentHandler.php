@@ -39,6 +39,7 @@ class ContentHandler
                 'methodName' => $value['methodName'],
                 'routeName' => $value['args']['name'] ?? $this->createRouteName(controller: $value['controller'], methodName: $value['methodName']),
                 'middleware' => $this->createArrayString(array: $value['args']['middleware'] ?? []),
+                'params' => $this->createParamString(array: $value['args']['params'] ?? []),
             ];
         }
 
