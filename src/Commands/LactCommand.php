@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Msamgan\Lact\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Routing\Route;
 use Msamgan\Lact\Concerns\CommonFunctions;
 use Msamgan\Lact\Handlers\ContentHandler;
+use Msamgan\Lact\Handlers\ControllerHandler;
 use Msamgan\Lact\Handlers\FileHandler;
 use Msamgan\Lact\Handlers\UrlHandler;
+use ReflectionException;
 
 class LactCommand extends Command
 {
@@ -19,8 +22,19 @@ class LactCommand extends Command
 
     public $description = 'Build actions for Urls';
 
-    public function handle(UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler): int
+    /**
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function handle(UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, ControllerHandler $controllerHandler): int
     {
+        $fileHandler->emptyLactRoutesFile();
+        // this here process controller methods which are uses Action Attribute.
+        $this->processRoutes(
+            routes: $contentHandler->createRouteString(routeMeta: $controllerHandler->processController()),
+            fileHandler: $fileHandler
+        );
+
         // removing the actions' dir.
         $fileHandler->removeDirectoryRecursively();
 
@@ -48,5 +62,15 @@ class LactCommand extends Command
                 'methodName' => $extraction['methodName'],
             ])
         );
+    }
+
+    private function processRoutes(array $routes, FileHandler $fileHandler): void
+    {
+        foreach ($routes as $route) {
+            $fileHandler->appendToFileWithEmptyLine(
+                filePath: $this->currentBasePath('routes/lact.php'),
+                content: $route
+            );
+        }
     }
 }

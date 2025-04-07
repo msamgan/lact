@@ -20,6 +20,7 @@ class LactServiceProvider extends PackageServiceProvider
         $package
             ->name('lact')
             ->hasConfigFile()
+            ->hasRoute('lact')
             ->hasCommand(LactCommand::class);
     }
 }
