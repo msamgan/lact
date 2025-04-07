@@ -147,6 +147,9 @@ functionName.route({})
 functionName.route({ user: 1 })
 // /path/1
 
+functionName.route({ q: 'Amber' })
+// /path?q=Amber
+
 functionName.routeName
 // 'route.name'
 ```
