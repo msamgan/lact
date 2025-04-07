@@ -35,7 +35,7 @@ class ControllerHandler
                                 $routesMeta[] = [
                                     'methodName' => $method->getName(),
                                     'controller' => $controllerInstance::class,
-                                    'args' => $attribute->getArguments()
+                                    'args' => $attribute->getArguments(),
                                 ];
                             }
                         }
