@@ -29,7 +29,7 @@ it('checks for appendToFileWithEmptyLine', function () {
     expect(file_get_contents($filePath))->toBe('// Action file: AdminController' . PHP_EOL . 'Content Test 2' . PHP_EOL);
 });
 
-it ('checks for removeDirectoryRecursively', function () {
+it('checks for removeDirectoryRecursively', function () {
     $this->fileHandler->ensureJsFileExists(fileName: 'UserController');
     $this->fileHandler->removeDirectoryRecursively();
     expect(is_dir($this->fileHandler->currentResourcePath($this->fileHandler->getPrefix())))->toBeFalse();
