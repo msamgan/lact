@@ -19,11 +19,11 @@ it('checks for ensureJsFileExists', function () {
 });
 
 it('checks for appendToFileWithEmptyLine', function () {
-    $filePath = $this->fileHandler->ensureJsFileExists(fileName: 'DashboardController');
+    $filePath = $this->fileHandler->ensureJsFileExists(fileName: 'UserController');
     $this->fileHandler->appendToFileWithEmptyLine(
         filePath: $filePath,
-        content: 'Content test',
+        content: 'Content Test',
     );
 
-    expect(file_get_contents($filePath))->toBe('// Action file: DashboardController\nContent test');
+    expect(file_get_contents($filePath))->toBe('// Action file: UserController' . PHP_EOL . 'Content Test' . PHP_EOL);
 });
