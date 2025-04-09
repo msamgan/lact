@@ -10,11 +10,13 @@ class FileHandler
 {
     use CommonFunctions;
 
-    public function ensureJsFileExists(string $fileName): string
+    public function ensureJsFileExists(string $fileName, ?string $filePath = null): string
     {
-        $this->ensureActionsDirectoryExists();
+        $this->ensureActionsDirectoryExists($filePath);
 
-        $filePath = $this->currentResourcePath($this->getPrefix() . '/' . $fileName . '.js');
+        $filePath = $filePath
+            ? $this->currentResourcePath($this->getPrefix() . '/' . $filePath . '/' . $fileName . '.js')
+            : $this->currentResourcePath($this->getPrefix() . '/' . $fileName . '.js');
 
         if (! file_exists($filePath)) {
             file_put_contents($filePath, '// Action file: ' . $fileName . PHP_EOL);
@@ -69,9 +71,14 @@ class FileHandler
         }
     }
 
-    private function ensureActionsDirectoryExists(): void
+    private function ensureActionsDirectoryExists(string $filePath): void
     {
-        $directory = $this->currentResourcePath($this->getPrefix());
+        $additionalPath = $this->getPrefix();
+        if ($filePath) {
+            $additionalPath = $additionalPath . DIRECTORY_SEPARATOR . $filePath;
+        }
+
+        $directory = $this->currentResourcePath($additionalPath);
         if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }

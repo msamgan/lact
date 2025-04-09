@@ -34,6 +34,8 @@ class UrlHandler
             ];
         }
 
+        $pathArray = [];
+
         $usesFragments = explode('\\', $uses);
         $lastFragment = array_pop($usesFragments);
 
@@ -41,9 +43,14 @@ class UrlHandler
         $fileName = $fileFragments[0];
         $methodName = $fileFragments[1];
 
+        if (count($usesFragments) > 3) {
+            $pathArray = array_slice($usesFragments, 3);
+        }
+
         return [
             'fileName' => $fileName,
             'methodName' => $methodName,
+            'pathArray' => $pathArray,
         ];
     }
 }
