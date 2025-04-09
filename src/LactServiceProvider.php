@@ -7,6 +7,7 @@ namespace Msamgan\Lact;
 use Msamgan\Lact\Commands\LactCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 
 class LactServiceProvider extends PackageServiceProvider
 {
@@ -21,6 +22,9 @@ class LactServiceProvider extends PackageServiceProvider
             ->name('lact')
             ->hasConfigFile()
             ->hasRoute('lact')
-            ->hasCommand(LactCommand::class);
+            ->hasCommand(LactCommand::class)
+            ->hasInstallCommand(function(InstallCommand $command) {
+                $command->askToStarRepoOnGitHub('msamgan/lact');
+            });
     }
 }
