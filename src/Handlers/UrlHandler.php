@@ -26,15 +26,15 @@ class UrlHandler
     public function extractNames(\Illuminate\Routing\Route $route): array
     {
         $uses = $route->getAction()['uses'];
+        $pathArray = [];
 
         if (! is_string($uses)) {
             return [
                 'fileName' => 'Closures',
                 'methodName' => $this->dotCaseToFunctionCase($route->getName()),
+                'pathArray' => $pathArray,
             ];
         }
-
-        $pathArray = [];
 
         $usesFragments = explode('\\', $uses);
         $lastFragment = array_pop($usesFragments);
