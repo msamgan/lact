@@ -71,7 +71,7 @@ class FileHandler
         }
     }
 
-    private function ensureActionsDirectoryExists(string $filePath): void
+    private function ensureActionsDirectoryExists(?string $filePath): void
     {
         $additionalPath = $this->getPrefix();
         if ($filePath) {
