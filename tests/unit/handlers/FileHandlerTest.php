@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Msamgan\Lact\Handlers\FileHandler;
 
 beforeEach(function (): void {
     $this->fileHandler = new FileHandler();
 });
-
 
 it('checks for ensureJsFileExists', function () {
     $expects = $this->fileHandler->ensureJsFileExists(fileName: 'DashboardController');
