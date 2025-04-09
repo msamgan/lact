@@ -21,8 +21,8 @@ it('can give you names', function () {
             1 => 'methodName',
             2 => 'pathArray',
         ])->and(array_values($expects))->toBe([
-            0 => 'DashboardController',
-            1 => 'userUpdate',
+            0 => 'LactTestController',
+            1 => 'testFunction',
             2 => [],
         ])->and($expects['methodName'])->toBeCamelCase();
     }
