@@ -15,8 +15,8 @@ class FileHandler
         $this->ensureActionsDirectoryExists($filePath);
 
         $filePath = $filePath
-            ? $this->currentResourcePath($this->getPrefix() . '/' . $filePath . '/' . $fileName . '.js')
-            : $this->currentResourcePath($this->getPrefix() . '/' . $fileName . '.js');
+            ? $this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . $filePath . DIRECTORY_SEPARATOR . $fileName . '.js')
+            : $this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . $fileName . '.js');
 
         if (! file_exists($filePath)) {
             file_put_contents($filePath, '// Action file: ' . $fileName . PHP_EOL);
