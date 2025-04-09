@@ -23,7 +23,7 @@ it('can give you names', function () {
         ])->and(array_values($expects))->toBe([
             0 => 'DashboardController',
             1 => 'userUpdate',
-            2 => []
+            2 => [],
         ])->and($expects['methodName'])->toBeCamelCase();
     }
 });
