@@ -32,9 +32,20 @@ class ContentHandler
         $replacers = [];
         $routeStrings = [];
         foreach ($routeMeta as $value) {
+            $path = $this->generateRandomUuid();
+
+            if ($value['args']['path'] ?? null) {
+                $path = trim($value['args']['path'], '/');
+            }
+
+            $method = 'get';
+            if ($value['args']['method'] ?? null) {
+                $method = strtolower($value['args']['method']);
+            }
+
             $replacers[] = [
-                'method' => strtolower($value['args']['method']),
-                'path' => $this->generateRandomUuid(),
+                'method' => $method,
+                'path' => $path,
                 'Controller' => $value['controller'],
                 'methodName' => $value['methodName'],
                 'routeName' => $value['args']['name'] ?? $this->createRouteName(controller: $value['controller'], methodName: $value['methodName']),

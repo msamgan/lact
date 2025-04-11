@@ -10,8 +10,9 @@ use Attribute;
 class Action
 {
     public function __construct(
-        public string $method,
+        public string $method = 'get',
         public ?string $name = null,
+        public ?string $path = null,
         public array $params = [],
         public array $middleware = [],
     ) {}

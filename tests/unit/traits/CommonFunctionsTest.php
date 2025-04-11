@@ -69,7 +69,7 @@ it('tests functionCaseToDotCase', function () {
 
 it('tests createArrayString', function () {
     expect($this->testClass->createArrayString(['auth', 'verified']))->toBeString()
-        ->and($this->testClass->createArrayString(['auth', 'verified']))->toBe("['auth','verified']");
+        ->and($this->testClass->createArrayString(['auth', 'verified']))->toBe("['web', 'auth', 'verified']");
 });
 
 it('tests createParamString', function () {

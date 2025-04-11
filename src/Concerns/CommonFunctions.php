@@ -176,16 +176,16 @@ trait CommonFunctions
     public function createArrayString(array $array): string
     {
         if (count($array) === 0) {
-            return '[]';
+            return "['web']";
         }
 
-        $string = '[';
+        $string = "['web', ";
 
         foreach ($array as $key => $value) {
-            $string .= "'$value',";
+            $string .= "'$value', ";
         }
 
-        $string = rtrim($string, ',');
+        $string = rtrim($string, ', ');
 
         return $string . ']';
     }
