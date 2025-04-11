@@ -1,7 +1,7 @@
 export const {{methodName}} = {
     call: {{function}}
-    route: function(param = {}) {
-        return route('{{routeName}}', param)
+    route: function(params = {}) {
+        return route('{{routeName}}', params)
     },
 
     routeName:  '{{routeName}}',

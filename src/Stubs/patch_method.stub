@@ -1,5 +1,5 @@
-function({ data = {}, headers = {}, param = {} }) {
-        return fetch(route('{{routeName}}', param), {
+function({ data = {}, headers = {}, params = {} }) {
+        return fetch(route('{{routeName}}', params), {
             method: 'PATCH',
             headers: {
                 'X-CSRF-TOKEN':  document.querySelector('meta[name="csrf"]').content,
