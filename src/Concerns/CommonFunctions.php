@@ -179,7 +179,7 @@ trait CommonFunctions
             return "['web']";
         }
 
-        $string =  "['web', ";
+        $string = "['web', ";
 
         foreach ($array as $key => $value) {
             $string .= "'$value', ";
