@@ -18,29 +18,16 @@ class FileHandler
             ? $this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . $filePath . DIRECTORY_SEPARATOR . $fileName . '.js')
             : $this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . $fileName . '.js');
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             file_put_contents($filePath, '// Action file: ' . $fileName . PHP_EOL);
         }
 
         return $filePath;
     }
 
-    private function ensureActionsDirectoryExists(?string $filePath): void
-    {
-        $additionalPath = $this->getPrefix();
-        if ($filePath) {
-            $additionalPath = $additionalPath . DIRECTORY_SEPARATOR . $filePath;
-        }
-
-        $directory = $this->currentResourcePath($additionalPath);
-        if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
-        }
-    }
-
     public function appendToFileWithEmptyLine(string $filePath, string $content): void
     {
-        if (!str_contains(file_get_contents($filePath), $content)) {
+        if (! str_contains(file_get_contents($filePath), $content)) {
             // Append the content followed by an empty line
             file_put_contents($filePath, $content . PHP_EOL, FILE_APPEND);
         }
@@ -48,11 +35,11 @@ class FileHandler
 
     public function removeDirectoryRecursively(?string $directoryPath = null): void
     {
-        if (!$directoryPath) {
+        if (! $directoryPath) {
             $directoryPath = $this->currentResourcePath($this->getPrefix());
         }
 
-        if (!is_dir($directoryPath)) {
+        if (! is_dir($directoryPath)) {
             return;
         }
 
@@ -78,13 +65,26 @@ class FileHandler
         $this->ensureLactRoutesFileExists();
     }
 
+    private function ensureActionsDirectoryExists(?string $filePath): void
+    {
+        $additionalPath = $this->getPrefix();
+        if ($filePath) {
+            $additionalPath = $additionalPath . DIRECTORY_SEPARATOR . $filePath;
+        }
+
+        $directory = $this->currentResourcePath($additionalPath);
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+    }
+
     private function ensureLactRoutesFileExists(): void
     {
         $this->ensureRoutesDirectoryExists();
 
         $filePath = $this->currentBasePath('routes/lact.php');
-        if (!file_exists($filePath)) {
-            file_put_contents($filePath, "<?php" . PHP_EOL . PHP_EOL);
+        if (! file_exists($filePath)) {
+            file_put_contents($filePath, '<?php' . PHP_EOL . PHP_EOL);
         }
     }
 
@@ -92,7 +92,7 @@ class FileHandler
     {
         $directory = $this->currentBasePath('routes');
 
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
     }
