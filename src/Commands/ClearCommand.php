@@ -14,7 +14,11 @@ class ClearCommand extends Command
 
     protected $signature = 'lact:clear';
 
-    protected $description = 'Clear routes and Action directory.';
+    /**
+     * This command is used to clear the routes file and remove the Action directory.
+     * It ensures that the necessary cleanup is performed for the LACT (Laravel Action Command Tool) package.
+     */
+    protected $description = 'Clear the routes file and remove the Action directory';
 
     public function handle(FileHandler $fileHandler): int
     {
