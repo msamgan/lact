@@ -60,15 +60,9 @@ class FileHandler
 
     public function emptyLactRoutesFile(): void
     {
-        $filePath = $this->currentBasePath('routes/lact.php');
+        unlink($this->currentBasePath('routes/lact.php'));
 
-        if (file_exists($filePath)) {
-            $lines = file($filePath, FILE_IGNORE_NEW_LINES);
-            if ($lines !== false && count($lines) > 2) {
-                $newContents = array_slice($lines, 0, 2);
-                file_put_contents($filePath, implode(PHP_EOL, $newContents) . PHP_EOL);
-            }
-        }
+        $this->ensureLactRoutesFileExists();
     }
 
     private function ensureActionsDirectoryExists(?string $filePath): void
@@ -79,6 +73,25 @@ class FileHandler
         }
 
         $directory = $this->currentResourcePath($additionalPath);
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+    }
+
+    private function ensureLactRoutesFileExists(): void
+    {
+        $this->ensureRoutesDirectoryExists();
+
+        $filePath = $this->currentBasePath('routes/lact.php');
+        if (! file_exists($filePath)) {
+            file_put_contents($filePath, '<?php' . PHP_EOL . PHP_EOL);
+        }
+    }
+
+    private function ensureRoutesDirectoryExists(): void
+    {
+        $directory = $this->currentBasePath('routes');
+
         if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
