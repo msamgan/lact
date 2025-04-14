@@ -2,5 +2,5 @@ function({ params = {}, headers = {}, methodHead = false }) {
         return fetch(route('{{routeName}}', params), {
             method: methodHead ? 'HEAD' : 'GET',
             headers: headers
-        }).then(response => response)
+        })
     },

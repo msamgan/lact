@@ -2,5 +2,5 @@ function({ params = {}, headers = {} }) {
         return fetch(route('{{routeName}}', params), {
             method: 'DELETE',
             headers: headers
-        }).then(response => response)
+        })
     },

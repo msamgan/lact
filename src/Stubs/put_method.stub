@@ -7,5 +7,5 @@ function({ data = {}, headers = {}, params = {} }) {
                 ...headers
             },
             body: JSON.stringify(data),
-        }).then(response => response)
+        })
     },
