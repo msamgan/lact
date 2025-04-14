@@ -18,7 +18,7 @@ class LactCommand extends Command
 {
     use CommonFunctions;
 
-    public $signature = 'lact:build-actions';
+    public $signature = 'lact:run';
 
     public $description = 'Build actions for Urls';
 
@@ -44,7 +44,7 @@ class LactCommand extends Command
                     continue;
                 }
 
-                $this->process(urlHandler: $urlHandler, fileHandler: $fileHandler, contentHandler: $contentHandler, route: $route, file: $method);
+                $this->process(urlHandler: $urlHandler, fileHandler: $fileHandler, contentHandler: $contentHandler, route: $route, method: $method);
             }
         }
 
@@ -52,12 +52,12 @@ class LactCommand extends Command
     }
 
     private function process(
-        UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, Route $route, string $file
+        UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, Route $route, string $method
     ): void {
         $extraction = $urlHandler->extractNames(route: $route);
         $fileHandler->appendToFileWithEmptyLine(
             filePath: $fileHandler->ensureJsFileExists(fileName: $extraction['fileName'], filePath: implode('/', $extraction['pathArray'])),
-            content: $contentHandler->createMethodString(file: strtolower($file) . '_method', replacers: [
+            content: $contentHandler->createMethodString(method: strtolower($method), replacers: [
                 'routeName' => $route->getName(),
                 'methodName' => $extraction['methodName'],
             ])

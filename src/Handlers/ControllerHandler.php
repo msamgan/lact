@@ -22,22 +22,23 @@ class ControllerHandler
     public function processController(): array
     {
         $routesMeta = [];
-        $controllers = $this->getControllers();
-        foreach ($controllers as $controller) {
-            if ((new ReflectionClass($controller))->isInstantiable()) {
-                $controllerInstance = app($controller);
-                $reflection = new ReflectionObject($controllerInstance);
-                foreach ($reflection->getMethods() as $method) {
-                    $attributes = $method->getAttributes(Action::class);
-                    if (count($attributes) > 0) {
-                        foreach ($attributes as $attribute) {
-                            if ($attribute->getName() === $this->getActionAttributeName()) {
-                                $routesMeta[] = [
-                                    'methodName' => $method->getName(),
-                                    'controller' => $controllerInstance::class,
-                                    'args' => $attribute->getArguments(),
-                                ];
-                            }
+        foreach ($this->getControllers() as $controller) {
+            if (! (new ReflectionClass($controller))->isInstantiable()) {
+                continue;
+            }
+
+            $controllerInstance = app($controller);
+            $reflection = new ReflectionObject($controllerInstance);
+            foreach ($reflection->getMethods() as $method) {
+                $attributes = $method->getAttributes(Action::class);
+                if (count($attributes) > 0) {
+                    foreach ($attributes as $attribute) {
+                        if ($attribute->getName() === $this->getActionAttributeName()) {
+                            $routesMeta[] = [
+                                'methodName' => $method->getName(),
+                                'controller' => $controllerInstance::class,
+                                'args' => $attribute->getArguments(),
+                            ];
                         }
                     }
                 }
@@ -47,7 +48,7 @@ class ControllerHandler
         return $routesMeta;
     }
 
-    public function getControllers(): array
+    private function getControllers(): array
     {
         $controllersNamespace = 'App\Http\Controllers';
         $controllersPath = base_path('app/Http/Controllers');

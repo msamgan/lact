@@ -11,11 +11,18 @@ class ContentHandler
 {
     use CommonFunctions;
 
-    public function createMethodString(string $file, array $replacers): string
+    public function createMethodString(string $method, array $replacers): string
     {
+        $file = match ($method) {
+            'get', 'head' => 'get',
+            'put', 'post', 'patch' => 'post',
+            'delete' => 'delete'
+        };
+
         $baseTemplate = file_get_contents($this->currentSourcePath('Stubs/template.stub'));
         $baseString = file_get_contents($this->currentSourcePath('Stubs/' . $file . '.stub'));
 
+        $replacers['method'] = strtoupper($method);
         foreach ($replacers as $key => $replacer) {
             $baseString = str_replace('{{' . $key . '}}', $replacer, $baseString);
             $baseTemplate = str_replace('{{' . $key . '}}', $replacer, $baseTemplate);
