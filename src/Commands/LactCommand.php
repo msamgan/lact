@@ -40,14 +40,13 @@ class LactCommand extends Command
     public function handle(UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, ControllerHandler $controllerHandler): int
     {
         $fileHandler->emptyLactRoutesFile();
+        $fileHandler->removeDirectoryRecursively();
+
         // this here process controller methods which are uses Action Attribute.
         $this->processRoutes(
             routes: $contentHandler->createRouteString(routeMeta: $controllerHandler->processController()),
             fileHandler: $fileHandler
         );
-
-        // removing the actions' dir.
-        $fileHandler->removeDirectoryRecursively();
 
         foreach ($urlHandler->actionUrls() as $route) {
             foreach ($route->methods as $method) {
