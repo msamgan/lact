@@ -60,7 +60,9 @@ class FileHandler
 
     public function emptyLactRoutesFile(): void
     {
-        unlink($this->currentBasePath('routes/lact.php'));
+        if (file_exists($this->currentBasePath('routes/lact.php'))) {
+            unlink($this->currentBasePath('routes/lact.php'));
+        }
 
         $this->ensureLactRoutesFileExists();
     }
