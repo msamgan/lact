@@ -2,6 +2,14 @@
 
 All notable changes to `lact` will be documented in this file.
 
+## v0.3.0 - 2025-04-15
+
+### What's Changed
+
+* Dynamic route file by @msamgan in https://github.com/msamgan/lact/pull/8
+
+**Full Changelog**: https://github.com/msamgan/lact/compare/v0.2.0...v0.3.0
+
 ## v0.2.0 - 2025-04-11
 
 ### What's Changed
