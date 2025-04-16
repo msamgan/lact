@@ -2,6 +2,14 @@
 
 All notable changes to `lact` will be documented in this file.
 
+## v0.3.1 - 2025-04-16
+
+### What's Changed
+
+* Data Function by @msamgan in https://github.com/msamgan/lact/pull/9
+
+**Full Changelog**: https://github.com/msamgan/lact/compare/v0.3.0...v0.3.1
+
 ## v0.3.0 - 2025-04-15
 
 ### What's Changed
