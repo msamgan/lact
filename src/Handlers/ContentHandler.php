@@ -13,22 +13,18 @@ class ContentHandler
 
     public function createMethodString(string $method, array $replacers): string
     {
+        $replacers['method'] = strtoupper($method);
+
         $file = match ($method) {
             'get', 'head' => 'get',
             'put', 'post', 'patch' => 'post',
             'delete' => 'delete'
         };
 
-        $baseTemplate = file_get_contents($this->currentSourcePath('Stubs/template.stub'));
-        $baseString = file_get_contents($this->currentSourcePath('Stubs/' . $file . '.stub'));
+        $replacers['function'] = $this->getBaseFunctionString(file: $file, replacers: $replacers);
+        $replacers['dataFunction'] = $method === 'get' ? $this->getDataFunctionString(replacers: $replacers) : '';
 
-        $replacers['method'] = strtoupper($method);
-        foreach ($replacers as $key => $replacer) {
-            $baseString = str_replace('{{' . $key . '}}', $replacer, $baseString);
-            $baseTemplate = str_replace('{{' . $key . '}}', $replacer, $baseTemplate);
-        }
-
-        return str_replace('{{function}}', $baseString, $baseTemplate);
+        return $this->runReplacers(template: $this->getStub(stubName: 'template'), replacers: $replacers);
     }
 
     /**
@@ -39,37 +35,77 @@ class ContentHandler
         $replacers = [];
         $routeStrings = [];
         foreach ($routeMeta as $value) {
-            $path = $this->generateRandomUuid();
-
-            if ($value['args']['path'] ?? null) {
-                $path = trim($value['args']['path'], '/');
-            }
-
-            $method = 'get';
-            if ($value['args']['method'] ?? null) {
-                $method = strtolower($value['args']['method']);
-            }
-
-            $replacers[] = [
-                'method' => $method,
-                'path' => $path,
-                'Controller' => $value['controller'],
-                'methodName' => $value['methodName'],
-                'routeName' => $value['args']['name'] ?? $this->createRouteName(controller: $value['controller'], methodName: $value['methodName']),
-                'middleware' => $this->createArrayString(array: $value['args']['middleware'] ?? []),
-                'params' => $this->createParamString(array: $value['args']['params'] ?? []),
-            ];
+            $replacers[] = $this->mapRouteReplacers(
+                method: $this->getRouteMethod(meta: $value),
+                path: $this->getRoutePath(meta: $value),
+                meta: $value
+            );
         }
 
-        foreach ($replacers as $replacer) {
-            $baseString = file_get_contents($this->currentSourcePath('Stubs/route.stub'));
-            foreach ($replacer as $key => $value) {
-                $baseString = str_replace('{{' . $key . '}}', $value, $baseString);
-            }
-
-            $routeStrings[] = $baseString;
+        foreach ($replacers as $singleRouteReplacers) {
+            $routeStrings[] = $this->runReplacers(template: $this->getStub(stubName: 'route'), replacers: $singleRouteReplacers);
         }
 
         return $routeStrings;
+    }
+
+    private function getBaseFunctionString(string $file, array $replacers): string
+    {
+        return $this->runReplacers(template: $this->getStub(stubName: $file), replacers: $replacers);
+    }
+
+    private function runReplacers(string $template, array $replacers): string
+    {
+        foreach ($replacers as $key => $replacer) {
+            $template = str_replace('{{' . $key . '}}', $replacer, $template);
+        }
+
+        return $template;
+    }
+
+    private function getStub(string $stubName): string
+    {
+        return file_get_contents($this->currentSourcePath('Stubs/' . $stubName . '.stub'));
+    }
+
+    private function getDataFunctionString(array $replacers): string
+    {
+        return $this->runReplacers(template: $this->getStub(stubName: 'data'), replacers: $replacers);
+    }
+
+    private function mapRouteReplacers(string $method, string $path, array $meta): array
+    {
+        return [
+            'method' => $method,
+            'path' => $path,
+            'Controller' => $meta['controller'],
+            'methodName' => $meta['methodName'],
+            'routeName' => $meta['args']['name'] ?? $this->createRouteName(controller: $meta['controller'], methodName: $meta['methodName']),
+            'middleware' => $this->createArrayString(array: $meta['args']['middleware'] ?? []),
+            'params' => $this->createParamString(array: $meta['args']['params'] ?? []),
+        ];
+    }
+
+    private function getRouteMethod(array $meta): string
+    {
+        $method = 'get';
+        if ($meta['args']['method'] ?? null) {
+            $method = strtolower($meta['args']['method']);
+        }
+
+        return $method;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getRoutePath(array $meta): string
+    {
+        $path = $this->generateRandomUuid();
+        if ($meta['args']['path'] ?? null) {
+            $path = trim($meta['args']['path'], '/');
+        }
+
+        return $path;
     }
 }

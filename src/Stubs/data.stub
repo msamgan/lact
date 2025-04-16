@@ -1,0 +1,6 @@
+data: function({ params = {}, headers = {} }) {
+        return fetch(route('{{routeName}}', params), {
+          method: 'GET',
+          headers: headers
+        }).then(response => response.json())
+    },
