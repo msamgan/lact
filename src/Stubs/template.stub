@@ -1,5 +1,6 @@
 export const {{methodName}} = {
     call: {{function}}
+    {{dataFunction}}
     route: function(params = {}) {
         return route('{{routeName}}', params)
     },
