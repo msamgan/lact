@@ -1,9 +1,11 @@
 function({ params = {}, headers = {} }) {
         return fetch(route('{{routeName}}', params), {
             method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN':  document.querySelector('meta[name="csrf"]').content,
-                ...headers
-            },
+            headers: baseHeaders(headers),
+        }).then(response => {
+            {{methodName}}.errors = makeErorObject(response)
+            throwException(response);
+
+            return response;
         })
     },

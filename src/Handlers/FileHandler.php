@@ -19,7 +19,10 @@ class FileHandler
             : $this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . $fileName . '.js');
 
         if (! file_exists($filePath)) {
-            file_put_contents($filePath, '// Action file: ' . $fileName . PHP_EOL);
+            file_put_contents(
+                $filePath,
+                '// Action file: ' . $fileName . PHP_EOL . "import { throwException, baseHeaders, makeErorObject, loadValidationErrors, validationStatusErrorCode } from '../internal.js';" . PHP_EOL . PHP_EOL
+            );
         }
 
         return $filePath;

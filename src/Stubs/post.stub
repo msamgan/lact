@@ -1,11 +1,18 @@
 function({ data = {}, headers = {}, params = {} }) {
         return fetch(route('{{routeName}}', params), {
             method: '{{method}}',
-            headers: {
-                'X-CSRF-TOKEN':  document.querySelector('meta[name="csrf"]').content,
-                'Content-Type': 'application/json',
-                ...headers
-            },
+            headers: baseHeaders(headers),
             body: JSON.stringify(data),
+        }).then(async response => {
+            {{methodName}}.errors = makeErorObject(response)
+            if (response.status === validationStatusErrorCode) {
+                {{methodName}}.errors = {
+                    ...{{methodName}}.errors,
+                    ...loadValidationErrors(await response.json())
+                }
+            }
+            throwException(response);
+
+            return response;
         })
     },

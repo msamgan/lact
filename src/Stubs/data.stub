@@ -1,6 +1,11 @@
 data: function({ params = {}, headers = {} }) {
         return fetch(route('{{routeName}}', params), {
           method: 'GET',
-          headers: headers
-        }).then(response => response.json())
+          headers: baseHeaders(headers)
+        }).then(async response => {
+            {{methodName}}.errors = makeErorObject(response)
+            throwException(response);
+
+            return response.json();
+        })
     },
