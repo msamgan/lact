@@ -1,4 +1,6 @@
 export const {{methodName}} = {
+    errors: {},
+    
     call: {{function}}
     {{dataFunction}}
     route: function(params = {}) {

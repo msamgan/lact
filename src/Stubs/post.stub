@@ -3,7 +3,14 @@ function({ data = {}, headers = {}, params = {} }) {
             method: '{{method}}',
             headers: baseHeaders(headers),
             body: JSON.stringify(data),
-        }).then(response => {
+        }).then(async response => {
+            {{methodName}}.errors = makeErorObject(response)
+            if (response.status === validationStatusErrorCode) {
+                {{methodName}}.errors = {
+                    ...{{methodName}}.errors,
+                    ...loadValidationErrors(await response.json())
+                }
+            }
             throwException(response);
 
             return response;

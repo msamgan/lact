@@ -3,6 +3,7 @@ function({ params = {}, headers = {}, methodHead = false }) {
             method: methodHead ? 'HEAD' : 'GET',
             headers: baseHeaders(headers)
         }).then(response => {
+            {{methodName}}.errors = makeErorObject(response)
             throwException(response);
 
             return response;

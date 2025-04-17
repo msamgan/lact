@@ -3,6 +3,7 @@ function({ params = {}, headers = {} }) {
             method: 'DELETE',
             headers: baseHeaders(headers),
         }).then(response => {
+            {{methodName}}.errors = makeErorObject(response)
             throwException(response);
 
             return response;
