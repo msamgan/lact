@@ -1,6 +1,6 @@
 export const throwException = (response) => {
     if (!response.ok || !String(response.status).startsWith('20')) {
-        throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
+        throw new Error(`HTTP error from Lact! status: ${response.status} ${response.statusText}`);
     }
 };
 
