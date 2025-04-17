@@ -1,10 +1,10 @@
-import { execSync } from 'node:child_process'
+import { execSync } from 'node:child_process';
 
-export const  lactPreBuild = () => {
+export const lactPreBuild = () => {
     return {
         name: 'lact-pre-build',
         async buildStart() {
-            execSync('php artisan lact:run', { stdio: 'inherit' })
-        },
-    }
-}
+            execSync('php artisan lact:run', { stdio: 'inherit' });
+        }
+    };
+};
