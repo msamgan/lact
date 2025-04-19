@@ -132,9 +132,9 @@ trait CommonFunctions
      * - Removing the trailing `Controller` from the controller's class name
      * - Converting the method name from a function case (e.g., "exampleMethod") to dot case (e.g., "example.method")
      *
-     * @param string $controller The fully qualified class name or path of the controller.
+     * @param  string  $controller  The fully qualified class name or path of the controller.
      *                              The name is normalized by stripping the `Controller` suffix.
-     * @param string $methodName The method name in the function case to be converted into a dot case.
+     * @param  string  $methodName  The method name in the function case to be converted into a dot case.
      * @return string The generated route name in the format: "{subdirs}.{controller}.{method}".
      */
     public function createRouteName(string $controller, string $methodName): string
@@ -148,14 +148,13 @@ trait CommonFunctions
                 return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $dir));
             }, $subdirs);
 
-            if (!empty($subdirs)) {
+            if (! empty($subdirs)) {
                 return implode('.', $subdirs) . '.' . strtolower(preg_replace('/Controller$/', '', class_basename($controller))) . '.' . $this->functionCaseToDotCase($methodName);
             }
         }
 
         return strtolower(preg_replace('/Controller$/', '', class_basename($controller))) . '.' . $this->functionCaseToDotCase($methodName);
     }
-
 
     /**
      * Converts a function case string (e.g., "exampleMethod") to a dot case
