@@ -14,6 +14,7 @@ class ContentHandler
     public function createMethodString(string $method, array $replacers): string
     {
         $replacers['method'] = strtoupper($method);
+        $replacers['methodLowerCase'] = $method;
 
         $file = match ($method) {
             'get', 'head' => 'get',

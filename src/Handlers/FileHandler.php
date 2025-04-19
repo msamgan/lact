@@ -22,7 +22,7 @@ class FileHandler
             $pathToInternalJs = '/' . $this->currentResourcePath('internal.js');
             file_put_contents(
                 $filePath,
-                '// Action file: ' . $fileName . PHP_EOL . "import { throwException, baseHeaders, makeErorObject, loadValidationErrors, validationStatusErrorCode } from '" . $pathToInternalJs . "';" . PHP_EOL . PHP_EOL
+                '// Action file: ' . $fileName . PHP_EOL . "import { throwException, baseHeaders, makeErrorObject, loadValidationErrors, validationStatusErrorCode } from '" . $pathToInternalJs . "';" . PHP_EOL . PHP_EOL
             );
         }
 

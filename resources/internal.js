@@ -13,7 +13,7 @@ export const baseHeaders = (headers) => {
     };
 };
 
-export const makeErorObject = (response) => {
+export const makeErrorObject = (response) => {
     if (!response.ok || !String(response.status).startsWith('20')) {
         return {
             ok: response.ok,
