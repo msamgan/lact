@@ -42,7 +42,7 @@ class LactCommand extends Command
         $fileHandler->emptyLactRoutesFile();
         $fileHandler->removeDirectoryRecursively();
 
-        // this here process controller methods which are uses Action Attribute.
+        // this here process controller method that uses Action Attribute.
         $this->processRoutes(
             routes: $contentHandler->createRouteString(routeMeta: $controllerHandler->processController()),
             fileHandler: $fileHandler

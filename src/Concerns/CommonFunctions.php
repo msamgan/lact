@@ -125,21 +125,37 @@ trait CommonFunctions
     }
 
     /**
-     * Creates a route name based on the given controller class name and method name.
+     * Creates a route name based on the given controller class name, including subdirectories, and method name.
      *
      * This method generates a route name string by:
-     * - Removing the trailing `Controller` from the controller's class name.
-     * - Converting the method name from a function case (e.g., "exampleMethod") to dot case (e.g., "example.method").
+     * - Extracting and formatting subdirectory names from the controller path
+     * - Removing the trailing `Controller` from the controller's class name
+     * - Converting the method name from a function case (e.g., "exampleMethod") to dot case (e.g., "example.method")
      *
-     * @param  string  $controller  The fully qualified class name or base name of the controller.
+     * @param string $controller The fully qualified class name or path of the controller.
      *                              The name is normalized by stripping the `Controller` suffix.
-     * @param  string  $methodName  The method name in function case to be converted into a dot case.
-     * @return string The generated route name in the format: "{controller}.{method}".
+     * @param string $methodName The method name in the function case to be converted into a dot case.
+     * @return string The generated route name in the format: "{subdirs}.{controller}.{method}".
      */
     public function createRouteName(string $controller, string $methodName): string
     {
+        $parts = explode('/', $controller);
+        $controllersIndex = array_search('Controllers', $parts);
+
+        if ($controllersIndex !== false && count($parts) > $controllersIndex + 1) {
+            $subdirs = array_slice($parts, $controllersIndex + 1, -1);
+            $subdirs = array_map(function ($dir) {
+                return strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $dir));
+            }, $subdirs);
+
+            if (!empty($subdirs)) {
+                return implode('.', $subdirs) . '.' . strtolower(preg_replace('/Controller$/', '', class_basename($controller))) . '.' . $this->functionCaseToDotCase($methodName);
+            }
+        }
+
         return strtolower(preg_replace('/Controller$/', '', class_basename($controller))) . '.' . $this->functionCaseToDotCase($methodName);
     }
+
 
     /**
      * Converts a function case string (e.g., "exampleMethod") to a dot case

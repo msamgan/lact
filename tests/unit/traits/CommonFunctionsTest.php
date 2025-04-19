@@ -58,8 +58,11 @@ it('tests generateRandomUuid', function () {
 });
 
 it('tests createRouteName', function () {
-    expect($this->testClass->createRouteName('Http/Controllers/Settings/ProfileController', 'updateData'))->toBe('profile.update.data')
-        ->and($this->testClass->createRouteName('Http/Controllers/DashboardController', 'data'))->toBe('dashboard.data');
+    expect($this->testClass->createRouteName('Http/Controllers/Settings/ProfileController', 'updateData'))->toBe('settings.profile.update.data')
+        ->and($this->testClass->createRouteName('Http/Controllers/DashboardController', 'data'))->toBe('dashboard.data')
+        ->and($this->testClass->createRouteName('Http/Controllers/SubDir/DashboardController', 'data'))->toBe('subdir.dashboard.data')
+        ->and($this->testClass->createRouteName('Http/Controllers/sub_dir/DashboardController', 'data'))->toBe('subdir.dashboard.data')
+        ->and($this->testClass->createRouteName('Http/Controllers/sub/subdir/DashboardController', 'data'))->toBe('sub.subdir.dashboard.data');
 });
 
 it('tests functionCaseToDotCase', function () {
