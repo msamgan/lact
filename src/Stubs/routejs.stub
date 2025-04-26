@@ -1,5 +1,31 @@
 const getNamedRoutes = () => {
-     return JSON.parse({{jsonString}});
+     return {{jsonString}}
+}
+
+const getBaseRoutes = () => {
+    let base = '{{appUrl}}'
+
+    return base.endsWith('/') ? base : base + '/'
+}
+
+const replaceParams = (uri, params) => {
+    if (!params || Object.keys(params).length === 0) {
+        return uri;
+    }
+
+    let newReplacedUri = '';
+    for (const [key, value] of Object.entries(params)) {
+        newReplacedUri = uri.replace(`{${key}}`, value);
+    }
+
+    return newReplacedUri;
+}
+
+const checkParamsRequirement = (uri, name) => {
+    const remainingParam = uri.match(/{([^}]+)}/);
+    if (remainingParam) {
+        throw new Error(`"${remainingParam[1]}" parameter is required in route ${name}`);
+    }
 }
 
 export const route = (name, params = {}) => {
@@ -10,5 +36,9 @@ export const route = (name, params = {}) => {
         throw new Error(`Route [${name}] not found.`);
     }
 
-    return route.uri;
+    let uri = replaceParams(route.uri, params);
+
+    checkParamsRequirement(uri, route.name);
+
+    return getBaseRoutes() + uri;
 }

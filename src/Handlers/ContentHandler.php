@@ -54,7 +54,10 @@ class ContentHandler
     {
         file_put_contents($this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . 'routes.js'), $this->runReplacers(
             $this->getStub(stubName: 'routejs'),
-            ['jsonString' => json_encode($routes)]
+            [
+                'jsonString' => json_encode($routes),
+                'appUrl' => config('app.url'),
+            ]
         ));
     }
 

@@ -23,8 +23,7 @@ class LactServiceProvider extends PackageServiceProvider
             ->name('lact')
             ->hasConfigFile()
             ->hasRoute('lact')
-            ->hasCommand(LactCommand::class)
-            ->hasCommand(ClearCommand::class)
+            ->hasCommands([LactCommand::class, ClearCommand::class])
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->askToStarRepoOnGitHub('msamgan/lact');
             });

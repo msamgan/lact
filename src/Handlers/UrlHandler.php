@@ -28,11 +28,8 @@ class UrlHandler
     {
         $urls = [];
         foreach (Route::getRoutes() as $route) {
-            if ($route->action['as'] ?? false) {
-                $urls[] = [
-                    'name' => $route->action['as'],
-                    'uri' => $route->uri,
-                ];
+            if ($route->getName()) {
+                $urls[] = $route;
             }
         }
 
@@ -67,6 +64,14 @@ class UrlHandler
             'fileName' => $fileName,
             'methodName' => $methodName,
             'pathArray' => $pathArray,
+        ];
+    }
+
+    public function extractNameAndUri(\Illuminate\Routing\Route $route): array
+    {
+        return [
+            'name' => $route->getName(),
+            'uri' => $route->uri(),
         ];
     }
 }
