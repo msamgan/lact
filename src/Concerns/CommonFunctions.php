@@ -154,7 +154,6 @@ trait CommonFunctions
         return strtolower(implode('-', $result));
     }
 
-
     /**
      * Creates a route name based on the given controller class name, including subdirectories, and method name.
      *

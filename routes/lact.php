@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 Route::get('action-eye-nature-wood-water-way-action-house-year-case', [App\Http\Controllers\UserController::class, 'users'])
     ->name('user.users')->middleware(['web'])->prefix('action');
 
@@ -14,4 +16,3 @@ Route::post('thing-side-art-food-thing-plant-voice-power-scene-name', [App\Http\
 
 Route::patch('fire-friend-nature-price-name-home-field-hand-scene-light/{user}', [App\Http\Controllers\UserController::class, 'updateByForm'])
     ->name('user.update.by.form')->middleware(['web'])->prefix('action');
-
