@@ -7,7 +7,6 @@ namespace Msamgan\Lact\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Routing\Route;
-use Illuminate\Support\Facades\App;
 use Msamgan\Lact\Concerns\CommonFunctions;
 use Msamgan\Lact\Handlers\ContentHandler;
 use Msamgan\Lact\Handlers\ControllerHandler;

@@ -15,7 +15,7 @@ it('can give you all action URL', function () {
 
 it('can give you all named URL', function () {
     $expects = $this->urlHandler->namedUrls();
-    expect(count($expects))->toBe(1);
+    expect(count($expects))->toBe(2);
 });
 
 it('can give you names', function () {
