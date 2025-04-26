@@ -50,6 +50,14 @@ class ContentHandler
         return $routeStrings;
     }
 
+    public function replaceJsonString(array $routes): void
+    {
+        file_put_contents($this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . 'routes.js'), $this->runReplacers(
+            $this->getStub(stubName: 'routejs'),
+            ['jsonString' => json_encode($routes)]
+        ));
+    }
+
     private function getBaseFunctionString(string $file, array $replacers): string
     {
         return $this->runReplacers(template: $this->getStub(stubName: $file), replacers: $replacers);

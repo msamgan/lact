@@ -10,7 +10,7 @@ class FileHandler
 {
     use CommonFunctions;
 
-    public function ensureJsFileExists(string $fileName, ?string $filePath = null): string
+    public function ensureJsFileExists(string $fileName, ?string $filePath = null, ?bool $isEmpty = false): string
     {
         $this->ensureActionsDirectoryExists($filePath);
 
@@ -19,10 +19,14 @@ class FileHandler
             : $this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . $fileName . '.js');
 
         if (! file_exists($filePath)) {
-            $newFileContents = '// Action file: ' . $fileName . PHP_EOL .
-                "import { throwException, baseHeaders, makeErrorObject, loadValidationErrors, validationStatusErrorCode } from '" .
-                '/' . $this->currentResourcePath('internal.js') . "';" .
-                PHP_EOL . PHP_EOL;
+            $newFileContents = '';
+            if (! $isEmpty) {
+                $newFileContents = '// Action file: ' . $fileName . PHP_EOL .
+                    "import { throwException, baseHeaders, makeErrorObject, loadValidationErrors, validationStatusErrorCode } from '" .
+                    '/' . $this->currentResourcePath('internal.js') . "';" .
+                    PHP_EOL . PHP_EOL;
+            }
+
             file_put_contents($filePath, $newFileContents);
         }
 

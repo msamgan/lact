@@ -1,0 +1,14 @@
+const getNamedRoutes = () => {
+     return JSON.parse({{jsonString}});
+}
+
+export const route = (name, params = {}) => {
+    const namedRoutes = getNamedRoutes();
+    const route = namedRoutes.find(route => route.name === name);
+
+    if (!route) {
+        throw new Error(`Route [${name}] not found.`);
+    }
+
+    return route.uri;
+}

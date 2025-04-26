@@ -16,7 +16,7 @@ trait CommonFunctions
      */
     public function getPrefix(): string
     {
-        return 'action';
+        return 'actions';
     }
 
     /**

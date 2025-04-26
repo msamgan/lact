@@ -13,6 +13,11 @@ it('can give you all action URL', function () {
     expect(count($expects))->toBe(1);
 });
 
+it('can give you all named URL', function () {
+    $expects = $this->urlHandler->namedUrls();
+    expect(count($expects))->toBe(1);
+});
+
 it('can give you names', function () {
     foreach ($this->urlHandler->actionUrls() as $route) {
         $expects = $this->urlHandler->extractNames($route);
