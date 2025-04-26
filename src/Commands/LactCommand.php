@@ -7,6 +7,7 @@ namespace Msamgan\Lact\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\App;
 use Msamgan\Lact\Concerns\CommonFunctions;
 use Msamgan\Lact\Handlers\ContentHandler;
 use Msamgan\Lact\Handlers\ControllerHandler;
@@ -39,7 +40,7 @@ class LactCommand extends Command
      */
     public function handle(UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, ControllerHandler $controllerHandler): int
     {
-        /*$fileHandler->emptyLactRoutesFile();
+        $fileHandler->emptyLactRoutesFile();
         $fileHandler->removeDirectoryRecursively();
 
         // this here process controller method that uses Action Attribute.
@@ -56,14 +57,7 @@ class LactCommand extends Command
 
                 $this->processRoutes(urlHandler: $urlHandler, fileHandler: $fileHandler, contentHandler: $contentHandler, route: $route, method: $method);
             }
-        }*/
-
-        $routeNameArray = [];
-        foreach ($urlHandler->namedUrls() as $route) {
-            $routeNameArray[] = $urlHandler->extractNameAndUri(route: $route);
         }
-        $fileHandler->ensureJsFileExists(fileName: 'routes');
-        $contentHandler->replaceJsonString(routes: $routeNameArray);
 
         return self::SUCCESS;
     }

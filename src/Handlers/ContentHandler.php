@@ -113,7 +113,7 @@ class ContentHandler
      */
     private function getRoutePath(array $meta): string
     {
-        $path = $this->generateRandomUuid();
+        $path = $this->generateRandomWordString();
         if ($meta['args']['path'] ?? null) {
             $path = trim($meta['args']['path'], '/');
         }

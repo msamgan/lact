@@ -125,6 +125,37 @@ trait CommonFunctions
     }
 
     /**
+     * Generates a string by concatenating 5 random English words.
+     *
+     * This method creates a string by selecting and combining 10 random words
+     * from a predefined list of common English words.
+     * It can generate up to
+     * 100,000 unique combinations.
+     *
+     * @return string The generated string of concatenated words.
+     */
+    public function generateRandomWordString(): string
+    {
+        $words = ['time', 'person', 'year', 'way', 'day', 'thing', 'man', 'world', 'life', 'hand',
+            'part', 'child', 'eye', 'woman', 'place', 'work', 'week', 'case', 'point', 'company',
+            'number', 'group', 'problem', 'fact', 'idea', 'water', 'money', 'month', 'book', 'lot',
+            'home', 'room', 'area', 'story', 'power', 'game', 'line', 'end', 'word', 'business',
+            'team', 'law', 'air', 'land', 'price', 'heart', 'force', 'foot', 'level', 'car',
+            'girl', 'night', 'food', 'voice', 'name', 'mind', 'mother', 'question', 'action', 'art',
+            'body', 'earth', 'father', 'friend', 'house', 'music', 'family', 'nature', 'peace', 'plan',
+            'river', 'scene', 'science', 'sea', 'side', 'sound', 'spirit', 'street', 'tree', 'view',
+            'wind', 'wood', 'field', 'fire', 'light', 'plant', 'rock', 'space', 'sun', 'village'];
+
+        $result = [];
+        for ($i = 0; $i < 10; $i++) {
+            $result[] = $words[array_rand($words)];
+        }
+
+        return strtolower(implode('-', $result));
+    }
+
+
+    /**
      * Creates a route name based on the given controller class name, including subdirectories, and method name.
      *
      * This method generates a route name string by:
