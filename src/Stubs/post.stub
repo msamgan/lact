@@ -4,7 +4,7 @@ function({ data = {}, headers = {}, params = {} }) {
             headers: baseHeaders(headers),
             body: JSON.stringify(data),
         }).then(async response => {
-            {{methodName}}.errors = makeErorObject(response)
+            {{methodName}}.errors = makeErrorObject(response)
             if (response.status === validationStatusErrorCode) {
                 {{methodName}}.errors = {
                     ...{{methodName}}.errors,

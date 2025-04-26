@@ -3,7 +3,7 @@ data: function({ params = {}, headers = {} }) {
           method: 'GET',
           headers: baseHeaders(headers)
         }).then(async response => {
-            {{methodName}}.errors = makeErorObject(response)
+            {{methodName}}.errors = makeErrorObject(response)
             throwException(response);
 
             return response.json();
