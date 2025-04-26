@@ -2,6 +2,14 @@
 
 All notable changes to `lact` will be documented in this file.
 
+## v0.3.3 - 2025-04-26
+
+### What's Changed
+
+* Inertia forms by @msamgan in https://github.com/msamgan/lact/pull/11
+
+**Full Changelog**: https://github.com/msamgan/lact/compare/v0.3.2...v0.3.3
+
 ## v0.3.2 - 2025-04-17
 
 ### What's Changed
