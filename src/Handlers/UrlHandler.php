@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Msamgan\Lact\Handlers;
 
+use Illuminate\Support\Str;
 use Msamgan\Lact\Concerns\CommonFunctions;
 use Route;
 
@@ -15,7 +16,19 @@ class UrlHandler
     {
         $urls = [];
         foreach (Route::getRoutes() as $route) {
-            if ($route->getPrefix() === $this->getPrefix()) {
+            if (Str::plural($route->getPrefix()) === $this->getPrefix()) {
+                $urls[] = $route;
+            }
+        }
+
+        return $urls;
+    }
+
+    public function namedUrls(): array
+    {
+        $urls = [];
+        foreach (Route::getRoutes() as $route) {
+            if ($route->getName()) {
                 $urls[] = $route;
             }
         }
@@ -51,6 +64,14 @@ class UrlHandler
             'fileName' => $fileName,
             'methodName' => $methodName,
             'pathArray' => $pathArray,
+        ];
+    }
+
+    public function extractNameAndUri(\Illuminate\Routing\Route $route): array
+    {
+        return [
+            'name' => $route->getName(),
+            'uri' => $route->uri(),
         ];
     }
 }

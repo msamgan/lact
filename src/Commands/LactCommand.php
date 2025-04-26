@@ -43,7 +43,7 @@ class LactCommand extends Command
         $fileHandler->removeDirectoryRecursively();
 
         // this here process controller method that uses Action Attribute.
-        $this->processRoutes(
+        $this->createRoutes(
             routes: $contentHandler->createRouteString(routeMeta: $controllerHandler->processController()),
             fileHandler: $fileHandler
         );
@@ -54,14 +54,24 @@ class LactCommand extends Command
                     continue;
                 }
 
-                $this->process(urlHandler: $urlHandler, fileHandler: $fileHandler, contentHandler: $contentHandler, route: $route, method: $method);
+                $this->processRoutes(urlHandler: $urlHandler, fileHandler: $fileHandler, contentHandler: $contentHandler, route: $route, method: $method);
             }
         }
 
         return self::SUCCESS;
     }
 
-    private function process(
+    private function createRoutes(array $routes, FileHandler $fileHandler): void
+    {
+        foreach ($routes as $route) {
+            $fileHandler->appendToFileWithEmptyLine(
+                filePath: $this->currentBasePath('routes/lact.php'),
+                content: $route
+            );
+        }
+    }
+
+    private function processRoutes(
         UrlHandler $urlHandler, FileHandler $fileHandler, ContentHandler $contentHandler, Route $route, string $method
     ): void {
         $extraction = $urlHandler->extractNames(route: $route);
@@ -72,15 +82,5 @@ class LactCommand extends Command
                 'methodName' => $extraction['methodName'],
             ])
         );
-    }
-
-    private function processRoutes(array $routes, FileHandler $fileHandler): void
-    {
-        foreach ($routes as $route) {
-            $fileHandler->appendToFileWithEmptyLine(
-                filePath: $this->currentBasePath('routes/lact.php'),
-                content: $route
-            );
-        }
     }
 }

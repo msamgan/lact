@@ -17,7 +17,7 @@ beforeEach(function () {
 });
 
 it('tests getPrefix', function () {
-    expect($this->testClass->getPrefix())->toBe('action');
+    expect($this->testClass->getPrefix())->toBe('actions');
 });
 
 it('tests currentResourcePath', function () {

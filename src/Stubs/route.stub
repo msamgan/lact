@@ -1,1 +1,2 @@
-Route::{{method}}('{{path}}{{params}}', [{{Controller}}::class, '{{methodName}}'])->name('{{routeName}}')->middleware({{middleware}})->prefix('action');
+Route::{{method}}('{{path}}{{params}}', [{{Controller}}::class, '{{methodName}}'])
+    ->name('{{routeName}}')->middleware({{middleware}})->prefix('action');

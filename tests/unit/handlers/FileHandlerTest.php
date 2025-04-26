@@ -10,13 +10,13 @@ beforeEach(function (): void {
 
 it('checks for ensureJsFileExists', function () {
     $expects = $this->fileHandler->ensureJsFileExists(fileName: 'DashboardController');
-    expect($expects)->toBeString()->toBe('vendor/msamgan/lact/resources/action/DashboardController.js');
+    expect($expects)->toBeString()->toBe('vendor/msamgan/lact/resources/actions/DashboardController.js');
 
     $expects = $this->fileHandler->ensureJsFileExists(fileName: 'ProfileController', filePath: implode('/', ['Settings']));
-    expect($expects)->toBeString()->toBe('vendor/msamgan/lact/resources/action/Settings/ProfileController.js');
+    expect($expects)->toBeString()->toBe('vendor/msamgan/lact/resources/actions/Settings/ProfileController.js');
 
     $expects = $this->fileHandler->ensureJsFileExists(fileName: 'ProfileController', filePath: implode('/', ['Settings', 'User']));
-    expect($expects)->toBeString()->toBe('vendor/msamgan/lact/resources/action/Settings/User/ProfileController.js');
+    expect($expects)->toBeString()->toBe('vendor/msamgan/lact/resources/actions/Settings/User/ProfileController.js');
 });
 
 it('checks for appendToFileWithEmptyLine', function () {
@@ -24,7 +24,8 @@ it('checks for appendToFileWithEmptyLine', function () {
     $this->fileHandler->appendToFileWithEmptyLine(filePath: $filePath, content: 'Content Test');
     expect(file_get_contents($filePath))->toBe(
         '// Action file: UserController' . PHP_EOL .
-        "import { throwException, baseHeaders, makeErrorObject, loadValidationErrors, validationStatusErrorCode } from '/vendor/msamgan/lact/resources/internal.js';" .
+        "import { throwException, baseHeaders, makeErrorObject, loadValidationErrors, validationStatusErrorCode } from '/vendor/msamgan/lact/resources/internal';" . PHP_EOL .
+        "import { route } from '/vendor/msamgan/lact/resources/actions/routes';" .
         PHP_EOL . PHP_EOL .
         'Content Test' . PHP_EOL
     );
@@ -33,7 +34,8 @@ it('checks for appendToFileWithEmptyLine', function () {
     $this->fileHandler->appendToFileWithEmptyLine(filePath: $filePath, content: 'Content Test 2');
     expect(file_get_contents($filePath))->toBe(
         '// Action file: AdminController' . PHP_EOL .
-        "import { throwException, baseHeaders, makeErrorObject, loadValidationErrors, validationStatusErrorCode } from '/vendor/msamgan/lact/resources/internal.js';" .
+        "import { throwException, baseHeaders, makeErrorObject, loadValidationErrors, validationStatusErrorCode } from '/vendor/msamgan/lact/resources/internal';" . PHP_EOL .
+        "import { route } from '/vendor/msamgan/lact/resources/actions/routes';" .
         PHP_EOL . PHP_EOL .
         'Content Test 2' . PHP_EOL
     );

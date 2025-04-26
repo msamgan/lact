@@ -1,0 +1,71 @@
+/**
+ * Returns an array of named routes with their corresponding URIs
+ * @returns {Array<{name: string, uri: string}>} Array of route objects containing name and URI
+ */
+const getNamedRoutes = () => {
+     return {{jsonString}}
+}
+
+/**
+ * Returns the base URL for the application, ensuring it ends with a forward slash
+ * @returns {string} Base URL with trailing slash
+ */
+const getBaseRoutes = () => {
+    let base = '{{appUrl}}'
+
+    return base.endsWith('/') ? base : base + '/'
+}
+
+/**
+ * Replaces URI parameters with their corresponding values
+ * @param {string} uri - The URI template containing parameters
+ * @param {Object} params - Key-value pairs of parameters to replace
+ * @returns {string} URI with replaced parameter values
+ */
+const replaceParams = (uri, params) => {
+    if (!params || Object.keys(params).length === 0) {
+        return uri;
+    }
+
+    let newReplacedUri = '';
+    for (const [key, value] of Object.entries(params)) {
+        newReplacedUri = uri.replace(`{${key}}`, value);
+    }
+
+    return newReplacedUri;
+}
+
+/**
+ * Checks if all required parameters in the URI have been replaced
+ * @param {string} uri - The URI to check for remaining parameters
+ * @param {string} name - The route name for error reporting
+ * @throws {Error} If any required parameters are not replaced
+ */
+const checkParamsRequirement = (uri, name) => {
+    const remainingParam = uri.match(/{([^}]+)}/);
+    if (remainingParam) {
+        throw new Error(`From Lact: "${remainingParam[1]}" parameter is required in route ${name}`);
+    }
+}
+
+/**
+ * Generates a full URL for a named route with parameters
+ * @param {string} name - The name of the route
+ * @param {Object} [params={}] - Parameters to be replaced in the route URI
+ * @returns {string} Complete URL with replaced parameters
+ * @throws {Error} If route is not found or required parameters are missing
+ */
+export const route = (name, params = {}) => {
+    const namedRoutes = getNamedRoutes();
+    const route = namedRoutes.find(route => route.name === name);
+
+    if (!route) {
+        throw new Error(`Route Error from Lact: [${name}] not found.`);
+    }
+
+    let uri = replaceParams(route.uri, params);
+
+    checkParamsRequirement(uri, route.name);
+
+    return getBaseRoutes() + uri;
+}

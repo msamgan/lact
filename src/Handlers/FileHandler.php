@@ -21,8 +21,10 @@ class FileHandler
         if (! file_exists($filePath)) {
             $newFileContents = '// Action file: ' . $fileName . PHP_EOL .
                 "import { throwException, baseHeaders, makeErrorObject, loadValidationErrors, validationStatusErrorCode } from '" .
-                '/' . $this->currentResourcePath('internal.js') . "';" .
+                '/' . $this->currentResourcePath('internal') . "';" . PHP_EOL .
+                "import { route } from '" . '/' . $this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . 'routes') . "';" .
                 PHP_EOL . PHP_EOL;
+
             file_put_contents($filePath, $newFileContents);
         }
 

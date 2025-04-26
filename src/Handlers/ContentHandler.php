@@ -50,6 +50,17 @@ class ContentHandler
         return $routeStrings;
     }
 
+    public function replaceJsonString(array $routes): void
+    {
+        file_put_contents($this->currentResourcePath($this->getPrefix() . DIRECTORY_SEPARATOR . 'routes.js'), $this->runReplacers(
+            $this->getStub(stubName: 'routejs'),
+            [
+                'jsonString' => json_encode($routes),
+                'appUrl' => config('app.url'),
+            ]
+        ));
+    }
+
     private function getBaseFunctionString(string $file, array $replacers): string
     {
         return $this->runReplacers(template: $this->getStub(stubName: $file), replacers: $replacers);
@@ -102,7 +113,7 @@ class ContentHandler
      */
     private function getRoutePath(array $meta): string
     {
-        $path = $this->generateRandomUuid();
+        $path = $this->generateRandomWordString();
         if ($meta['args']['path'] ?? null) {
             $path = trim($meta['args']['path'], '/');
         }
