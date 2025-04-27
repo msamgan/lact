@@ -49,6 +49,9 @@
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
     },
+    "bin": [
+        "bin/lact"
+    ],
     "config": {
         "sort-packages": true,
         "allow-plugins": {

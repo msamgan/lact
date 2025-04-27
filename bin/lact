@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+(static function () {
+    echo "> lact: generating files.\n";
+
+    passthru('php artisan lact:clear');
+    passthru('php artisan lact:create-routes');
+    passthru('php artisan lact:routes');
+    passthru('php artisan lact:process-routes');
+
+    echo "> lact: all files generated successfully.\n";
+})();
+
+
