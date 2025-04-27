@@ -7,8 +7,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/msamgan/lact.svg?style=flat-square)](https://packagist.org/packages/msamgan/lact)
 </div>
 
-> ⚠️ Early Development Notice: This project is in early development and is not yet ready for production use. Features may change, break, or be incomplete. Use at your own risk.
-
 ## Documentation
 
 Detailed documentation of the project can be found at [getlact.com](https://getlact.com/)
