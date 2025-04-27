@@ -2,6 +2,15 @@
 
 All notable changes to `lact` will be documented in this file.
 
+## v1.0.0 - 2025-04-27
+
+### What's Changed
+
+* Route method by @msamgan in https://github.com/msamgan/lact/pull/12
+* created a bin. by @msamgan in https://github.com/msamgan/lact/pull/13
+
+**Full Changelog**: https://github.com/msamgan/lact/compare/v0.3.3...v1.0.0
+
 ## v0.3.3 - 2025-04-26
 
 ### What's Changed
