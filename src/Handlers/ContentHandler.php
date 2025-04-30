@@ -18,8 +18,7 @@ class ContentHandler
 
         $file = match ($method) {
             'get', 'head' => 'get',
-            'put', 'post', 'patch' => 'post',
-            'delete' => 'delete'
+            'put', 'post', 'patch', 'delete' => 'post',
         };
 
         $replacers['function'] = $this->getBaseFunctionString(file: $file, replacers: $replacers);
