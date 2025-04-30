@@ -2,6 +2,14 @@
 
 All notable changes to `lact` will be documented in this file.
 
+## v1.1.0 - 2025-04-30
+
+### What's Changed
+
+* 'delete' as a post by @msamgan in https://github.com/msamgan/lact/pull/15
+
+**Full Changelog**: https://github.com/msamgan/lact/compare/v1.0.0...v1.1.0
+
 ## v1.0.0 - 2025-04-27
 
 ### What's Changed
