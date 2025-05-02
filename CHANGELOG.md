@@ -2,6 +2,10 @@
 
 All notable changes to `lact` will be documented in this file.
 
+## v1.2.0 - 2025-05-02
+
+**Full Changelog**: https://github.com/msamgan/lact/compare/v1.1.0...v1.2.0
+
 ## v1.1.0 - 2025-04-30
 
 ### What's Changed
