@@ -43,7 +43,9 @@ class ContentHandler
         }
 
         foreach ($replacers as $singleRouteReplacers) {
-            $routeStrings[] = $this->runReplacers(template: $this->getStub(stubName: 'route'), replacers: $singleRouteReplacers);
+            $routeStrings[] = $singleRouteReplacers['is_view']
+                ? $this->runReplacers(template: $this->getStub(stubName: 'view_route'), replacers: $singleRouteReplacers)
+                : $this->runReplacers(template: $this->getStub(stubName: 'route'), replacers: $singleRouteReplacers);
         }
 
         return $routeStrings;
@@ -68,6 +70,10 @@ class ContentHandler
     private function runReplacers(string $template, array $replacers): string
     {
         foreach ($replacers as $key => $replacer) {
+            if (gettype($replacer) === 'boolean') {
+                continue;
+            }
+
             $template = str_replace('{{' . $key . '}}', $replacer, $template);
         }
 
@@ -94,6 +100,7 @@ class ContentHandler
             'routeName' => $meta['args']['name'] ?? $this->createRouteName(controller: $meta['controller'], methodName: $meta['methodName']),
             'middleware' => $this->createArrayString(array: $meta['args']['middleware'] ?? []),
             'params' => $this->createParamString(array: $meta['args']['params'] ?? []),
+            'is_view' => $meta['args']['isView'] ?? false
         ];
     }
 

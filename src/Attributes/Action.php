@@ -15,5 +15,6 @@ class Action
         public ?string $path = null,
         public array $params = [],
         public array $middleware = [],
+        public ?bool $isView = false
     ) {}
 }
