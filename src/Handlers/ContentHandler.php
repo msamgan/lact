@@ -100,7 +100,7 @@ class ContentHandler
             'routeName' => $meta['args']['name'] ?? $this->createRouteName(controller: $meta['controller'], methodName: $meta['methodName']),
             'middleware' => $this->createArrayString(array: $meta['args']['middleware'] ?? []),
             'params' => $this->createParamString(array: $meta['args']['params'] ?? []),
-            'is_view' => $meta['args']['isView'] ?? false
+            'is_view' => $meta['args']['isView'] ?? false,
         ];
     }
 
