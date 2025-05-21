@@ -27,12 +27,19 @@ const replaceParams = (uri, params) => {
         return uri;
     }
 
-    let newReplacedUri = '';
+    // Replace placeholders in the URI
     for (const [key, value] of Object.entries(params)) {
-        newReplacedUri = uri.replace(`{${key}}`, value);
+        uri = uri.replace(`{${key}}`, value);
     }
 
-    return newReplacedUri;
+    // Add remaining keys as query parameters
+    const remainingParams = Object.entries(params).filter(([key, value]) => !uri.includes(value));
+    if (remainingParams.length > 0) {
+        const queryString = remainingParams.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+        uri += (uri.includes('?') ? '&' : '?') + queryString;
+    }
+
+    return uri;
 }
 
 /**
