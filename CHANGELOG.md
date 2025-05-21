@@ -2,6 +2,19 @@
 
 All notable changes to `lact` will be documented in this file.
 
+## v1.2.1 - 2025-05-21
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot in https://github.com/msamgan/lact/pull/19
+* added the remaining params as query string. by @msamgan in https://github.com/msamgan/lact/pull/21
+
+### New Contributors
+
+* @dependabot made their first contribution in https://github.com/msamgan/lact/pull/19
+
+**Full Changelog**: https://github.com/msamgan/lact/compare/v1.2.0...v1.2.1
+
 ## v1.2.0 - 2025-05-02
 
 **Full Changelog**: https://github.com/msamgan/lact/compare/v1.1.0...v1.2.0
