@@ -133,6 +133,7 @@ trait CommonFunctions
      * 100,000 unique combinations.
      *
      * @return string The generated string of concatenated words.
+     *
      * @throws Exception
      */
     public function generateRandomWordString(array $meta): string
