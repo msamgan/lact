@@ -119,7 +119,7 @@ class ContentHandler
      */
     private function getRoutePath(array $meta): string
     {
-        $path = $this->generateRandomWordString();
+        $path = $this->generateRandomWordString(meta: $meta);
         if ($meta['args']['path'] ?? null) {
             $path = trim($meta['args']['path'], '/');
         }
