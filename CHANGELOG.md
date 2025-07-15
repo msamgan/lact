@@ -2,6 +2,15 @@
 
 All notable changes to `lact` will be documented in this file.
 
+## v1.2.2 - 2025-07-15
+
+### What's Changed
+
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot[bot] in https://github.com/msamgan/lact/pull/22
+* added Function path in development by @msamgan in https://github.com/msamgan/lact/pull/23
+
+**Full Changelog**: https://github.com/msamgan/lact/compare/v1.2.1...v1.2.2
+
 ## v1.2.1 - 2025-05-21
 
 ### What's Changed
