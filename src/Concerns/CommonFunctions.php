@@ -133,9 +133,14 @@ trait CommonFunctions
      * 100,000 unique combinations.
      *
      * @return string The generated string of concatenated words.
+     * @throws Exception
      */
-    public function generateRandomWordString(): string
+    public function generateRandomWordString(array $meta): string
     {
+        if (! app()->environment('production')) {
+            return strtolower(str_replace('\\', '-', $meta['controller'])) . '/' . strtolower($meta['methodName']);
+        }
+
         $words = ['time', 'person', 'year', 'way', 'day', 'thing', 'man', 'world', 'life', 'hand',
             'part', 'child', 'eye', 'woman', 'place', 'work', 'week', 'case', 'point', 'company',
             'number', 'group', 'problem', 'fact', 'idea', 'water', 'money', 'month', 'book', 'lot',
